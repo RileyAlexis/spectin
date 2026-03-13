@@ -4,6 +4,6 @@ import "../controllers";
 document.addEventListener("turbo:load", () => {
   const title = document.getElementById("titlebox");
   if (title) {
-    title.textContent = "title change form JS";
+    title.textContent = "title change JS controller";
   }
 });
