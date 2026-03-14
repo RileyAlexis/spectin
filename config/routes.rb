@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   get "pages/home"
+  get "library", to: "library#index"
+  get "epub_preview", to: "pages#epub_preview"
+  post "epub_preview", to: "pages#epub_preview_upload"
+  get "epub_preview_assets/:preview_id/*asset_path", to: "pages#epub_preview_asset", as: :epub_preview_asset, format: false
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

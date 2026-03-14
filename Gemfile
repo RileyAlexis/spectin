@@ -42,6 +42,7 @@ gem "thruster", require: false
 
 gem "pg"
 gem "bcrypt"
+gem "sorbet-runtime"
 
 
 group :development, :test do
@@ -72,3 +73,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "epub-parser", "~> 0.5.0"
+
+gem "htmlbeautifier", "~> 1.4"

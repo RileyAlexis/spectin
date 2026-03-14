@@ -1,0 +1,16 @@
+<div class="primaryContainer">
+  <div class="navAreaContainer">
+    <%= link_to "Home", root_path %> |
+    <%= link_to "EPUB Preview", epub_preview_path %>
+  </div>
+  <div class="secondaryContainer">
+    <h1>Library</h1>
+    <% if @books.empty? %>
+      <p>No books yet. <%= link_to "Upload an EPUB", epub_preview_path %> to get started.</p>
+    <% else %>
+      <div class="book-grid">
+        <%= render partial: 'book_card' locals: { book: book } %>
+      </div>
+    <% end %>
+  </div>
+</div>

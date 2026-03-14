@@ -1,0 +1,66 @@
+<div style="max-width: 1100px; margin: 2rem auto; padding: 0 1rem; font-family: Georgia, 'Times New Roman', serif;">
+  <h1 style="margin-bottom: 0.35rem;">EPUB Preview</h1>
+  <p style="margin-top: 0; color: #555;">Upload an EPUB and preview up to <%= @max_pages || 25 %> spine pages.</p>
+
+  <% if flash.now[:alert].present? %>
+    <div style="background: #fdecea; color: #8a1f11; border: 1px solid #f5c2be; border-radius: 8px; padding: 0.75rem 0.9rem; margin-bottom: 1rem;">
+      <%= flash.now[:alert] %>
+    </div>
+  <% end %>
+
+  <% if flash.now[:notice].present? %>
+    <div style="background: #e8f6ea; color: #1d5d2a; border: 1px solid #b9e2c0; border-radius: 8px; padding: 0.75rem 0.9rem; margin-bottom: 1rem;">
+      <%= flash.now[:notice] %>
+    </div>
+  <% end %>
+
+  <%= form_with url: epub_preview_path, method: :post, local: true, multipart: true, data: { turbo: false } do %>
+    <div style="display: flex; gap: 0.7rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
+      <%= file_field_tag :epub_file, accept: ".epub,application/epub+zip", required: true %>
+      <%= submit_tag "Preview EPUB", style: "background: #0c4a6e; color: #fff; border: 0; border-radius: 6px; padding: 0.5rem 0.8rem; cursor: pointer;" %>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
+      <label style="display: inline-flex; gap: 0.4rem; align-items: center;">
+        <%= check_box_tag :save_to_library, "1", @save_to_library %>
+        Save this EPUB to a user library
+      </label>
+      <label>
+        User ID:
+        <%= number_field_tag :library_user_id, @library_user_id, min: 1, style: "width: 8rem;" %>
+      </label>
+    </div>
+  <% end %>
+
+  <% if @pages.present? %>
+    <section style="border: 1px solid #ddd; border-radius: 10px; padding: 1rem; background: #fafafa; margin-bottom: 1rem;">
+      <h2 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;"><%= @book_title.presence || "Uploaded Book" %></h2>
+      <% if @book_creators.present? %>
+        <p style="margin-top: 0; color: #666;"><%= @book_creators.join(", ") %></p>
+      <% end %>
+      <p style="margin: 0; color: #555;">Pages rendered: <%= @pages.length %></p>
+    </section>
+
+    <section>
+      <% @pages.each do |page| %>
+        <details style="border: 1px solid #ddd; border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 0.8rem;" <%= "open" if page[:index] == 1 %>>
+          <summary style="cursor: pointer; color: #0c4a6e; font-weight: 600;">
+            #<%= page[:index] %> <%= page[:entry_name] %>
+          </summary>
+          <p style="font-size: 0.85rem; color: #666; margin: 0.5rem 0;"><%= page[:media_type] %></p>
+          <p style="font-size: 0.85rem; color: #666; margin: 0.5rem 0 0.9rem 0;"><%= page[:snippet] %></p>
+          <p style="font-size: 0.85rem; margin: 0 0 0.9rem 0;">
+            <a href="<%= page[:preview_url] %>" target="_blank" rel="noopener">Open page in new tab</a>
+          </p>
+          <div style="border-top: 1px solid #eee; padding-top: 0.8rem; overflow: auto;">
+            <iframe
+              src="<%= page[:preview_url] %>"
+              loading="lazy"
+              sandbox="allow-same-origin"
+              style="width: 100%; min-height: 780px; border: 1px solid #ddd; border-radius: 8px; background: #fff;"
+            ></iframe>
+          </div>
+        </details>
+      <% end %>
+    </section>
+  <% end %>
+</div>
