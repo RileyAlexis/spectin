@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get "pages/home"
   get "library", to: "library#index"
+  get "library/books/:id/cover", to: "library#cover", as: :library_book_cover
   get "epub_preview", to: "pages#epub_preview"
   post "epub_preview", to: "pages#epub_preview_upload"
   get "epub_preview_assets/:preview_id/*asset_path", to: "pages#epub_preview_asset", as: :epub_preview_asset, format: false

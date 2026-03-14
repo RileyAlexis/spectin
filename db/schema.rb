@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_14_171310) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_14_203000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,6 +34,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_14_171310) do
     t.string "epub_filename"
     t.string "epub_content_type"
     t.bigint "epub_byte_size"
+    t.binary "cover_data"
+    t.string "cover_filename"
+    t.string "cover_content_type"
+    t.bigint "cover_byte_size"
     t.index ["authors"], name: "index_books_on_authors", using: :gin
     t.index ["metadata"], name: "index_books_on_metadata", using: :gin
     t.index ["user_id", "identifier"], name: "index_books_on_user_id_and_identifier"

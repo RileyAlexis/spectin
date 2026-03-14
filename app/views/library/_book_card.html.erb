@@ -1,0 +1,18 @@
+<div class="library-book-card">
+  <div class="library-book-card-cover <%= "is-loading" if book.cover_byte_size.to_i > 0 %>">
+    <% if book.cover_byte_size.to_i > 0 %>
+      <div class="library-book-card-skeleton" aria-hidden="true"></div>
+      <%= image_tag(
+        library_book_cover_path(book),
+        alt: "#{book.title} cover",
+        loading: "lazy",
+        decoding: "async",
+        class: "library-book-card-cover-image",
+        onload: "this.closest('.library-book-card-cover')?.classList.remove('is-loading')"
+      ) %>
+    <% else %>
+      <div class="library-book-card-cover-placeholder"><%= book.title %></div>
+    <% end %>
+  </div>
+  <% book.description %>
+</div>

@@ -16,6 +16,9 @@ module GeneratedUrlHelpersModule
   def epub_preview_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def library_book_cover_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def library_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

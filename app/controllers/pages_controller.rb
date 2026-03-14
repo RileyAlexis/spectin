@@ -63,7 +63,7 @@ class PagesController < ApplicationController
       @book_creators = Array(book.metadata.creators).map(&:to_s).reject(&:blank?)
 
       if @save_to_library
-        @saved_book = save_uploaded_book(uploaded_file, book)
+        @saved_book = save_uploaded_book(uploaded_file, book, epub_path)
       end
 
       index = 0
@@ -168,12 +168,14 @@ class PagesController < ApplicationController
     text_like ? "#{mime}; charset=utf-8" : mime
   end
 
-  def save_uploaded_book(uploaded_file, parsed_book)
+  def save_uploaded_book(uploaded_file, parsed_book, epub_path)
     user = User.find_by(id: @library_user_id)
     unless user
       flash.now[:alert] = "Could not save book: user not found (User ID #{@library_user_id})."
       return nil
     end
+
+    cover_attrs = extract_cover_from_epub(parsed_book, epub_path)
 
     book_record = user.books.build(
       title: parsed_book.metadata.title.to_s.presence || uploaded_file.original_filename,
@@ -190,7 +192,11 @@ class PagesController < ApplicationController
         titles: Array(parsed_book.metadata.titles).map(&:to_s),
         creators: Array(parsed_book.metadata.creators).map(&:to_s),
         subjects: Array(parsed_book.metadata.subjects).map(&:to_s)
-      }
+      },
+      cover_data: cover_attrs&.fetch(:cover_data, nil),
+      cover_filename: cover_attrs&.fetch(:cover_filename, nil),
+      cover_content_type: cover_attrs&.fetch(:cover_content_type, nil),
+      cover_byte_size: cover_attrs&.fetch(:cover_byte_size, nil)
     )
 
     if book_record.save
@@ -208,5 +214,73 @@ class PagesController < ApplicationController
   # sig { returns(ActionController::Parameters) }
   def page_params
     params.require(:page).permit(:title, :body)
+  end
+
+  def extract_cover_from_epub(parsed_book, epub_path)
+    parser_cover = extract_cover_from_parser(parsed_book)
+    return parser_cover if parser_cover.present?
+
+    entries = list_entries_from_epub(epub_path)
+    return nil if entries.empty?
+
+    cover_entry = pick_cover_entry(entries)
+    return nil if cover_entry.blank?
+
+    stdout, _stderr, status = Open3.capture3("unzip", "-p", epub_path.to_s, cover_entry)
+    return nil unless status.success?
+
+    data = stdout.to_s.b
+    return nil if data.empty?
+
+    {
+      cover_data: data,
+      cover_filename: File.basename(cover_entry),
+      cover_content_type: mime_type_for_image(cover_entry),
+      cover_byte_size: data.bytesize
+    }
+  rescue StandardError
+    nil
+  end
+
+  def extract_cover_from_parser(parsed_book)
+    cover_item = parsed_book.cover_image
+    return nil if cover_item.blank?
+
+    data = cover_item.read.to_s.b
+    return nil if data.empty?
+
+    {
+      cover_data: data,
+      cover_filename: File.basename(cover_item.entry_name.to_s),
+      cover_content_type: cover_item.media_type.to_s.presence || mime_type_for_image(cover_item.entry_name.to_s),
+      cover_byte_size: data.bytesize
+    }
+  rescue StandardError
+    nil
+  end
+
+  def list_entries_from_epub(epub_path)
+    stdout, _stderr, status = Open3.capture3("unzip", "-Z1", epub_path.to_s)
+    return [] unless status.success?
+
+    stdout.to_s.lines.map(&:strip).reject(&:blank?)
+  rescue StandardError
+    []
+  end
+
+  def pick_cover_entry(entries)
+    image_entries = entries.select { |entry| entry.downcase.match?(/\.(jpg|jpeg|png|webp|gif)$/) }
+
+    image_entries.find { |entry| File.basename(entry).downcase.include?("cover") } || image_entries.first
+  end
+
+  def mime_type_for_image(path)
+    ext = File.extname(path).downcase
+    return "image/jpeg" if ext == ".jpg" || ext == ".jpeg"
+    return "image/png" if ext == ".png"
+    return "image/webp" if ext == ".webp"
+    return "image/gif" if ext == ".gif"
+
+    "application/octet-stream"
   end
 end

@@ -16,6 +16,9 @@ module GeneratedPathHelpersModule
   def epub_preview_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def library_book_cover_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def library_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
