@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_14_203000) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_16_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,6 +45,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_14_203000) do
     t.index ["user_id"], name: "index_books_on_user_id"
   end
 
+  create_table "reading_progresses", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "book_id", null: false
+    t.string "last_cfi"
+    t.jsonb "bookmarks", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_reading_progresses_on_book_id"
+    t.index ["user_id", "book_id"], name: "index_reading_progresses_on_user_id_and_book_id", unique: true
+    t.index ["user_id"], name: "index_reading_progresses_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,4 +66,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_14_203000) do
   end
 
   add_foreign_key "books", "users"
+  add_foreign_key "reading_progresses", "books"
+  add_foreign_key "reading_progresses", "users"
 end

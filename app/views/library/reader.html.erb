@@ -1,0 +1,67 @@
+<div class="reader-shell" 
+  data-controller="reader"
+  data-reader-book-id-value="<%= @book.id %>"
+  data-reader-epub-url-value="<%= @epub_url %>"
+  data-reader-progress-url-value="<%= @reading_progress_url %>"
+>
+  <div class="reader-header">
+    <div class="reader-breadcrumbs">
+      <%= link_to "Library", library_path %>
+      <span>/</span>
+      <span><%= @book.title %></span>
+    </div>
+    <div class="reader-controls">
+      <label for="reader-font-family">Font</label>
+      <select 
+        id="reader-font-family"
+        data-reader-target="fontFamily"
+        data-action="change->reader#fontFamilyChanged"
+        >
+        <option value="Georgia, serif">Georgia</option>
+        <option value="'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', sans-serif">Atkinson</option>
+        <option value="'IBM Plex Serif', serif">IBM Plex Serif</option>
+        <option value="'Noto Serif', serif">Noto Serif</option>
+      </select>
+      <label for="reader-font-size">Size</label>
+      <input 
+        id="reader-font-size" 
+        type="range" 
+        min="14" 
+        max="30" 
+        step="1" 
+        value="18"
+        data-reader-target="fontSize"
+        data-action="input->reader#fontSizeChanged"
+      />
+      <output 
+        id="reader-font-size-output"
+        data-reader-target="fontSizeOutput"
+        
+        >18px</output>
+    </div>
+  </div>
+  <%# ? spacing %>
+  <div class="reader-stage" id="reader-stage" data-reader-target="stage"></div>
+  <div class="reader-pagination">
+    <button 
+      id="reader-prev" 
+      class="reader-page-link" 
+      type="button"
+      data-reader-target="prevButton"
+      data-action="click->reader#prev"
+      >
+      Previous</button>
+    <span id="reader-page-status"
+      data-reader-target="pageStatus"
+    >Loading book...</span>
+    <button 
+      id="reader-next"
+      class="reader-page-link"
+      type="button"
+      data-reader-target="nextButton"
+      data-action="click->reader#next"
+      >
+      Next
+    </button>
+  </div>
+</div>

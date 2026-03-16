@@ -1,4 +1,4 @@
-<%= link_to library_book_read_path(book), class: "library-book-card-link" do %>
+<%= link_to library_book_reader_path(book), class: "library-book-card-link" do %>
   <div class="library-book-card">
     <div class="library-book-card-cover <%= "is-loading" if book.cover_byte_size.to_i > 0 %>">
       <% if book.cover_byte_size.to_i > 0 %>

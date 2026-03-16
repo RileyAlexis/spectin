@@ -2,7 +2,8 @@
   "name": "librestack",
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^8.0.13"
+    "@hotwired/turbo-rails": "^8.0.13",
+    "epubjs": "^0.3.93"
   },
   "devDependencies": {
     "vite": "^6.4.1",

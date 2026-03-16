@@ -2,8 +2,10 @@ Rails.application.routes.draw do
   get "pages/home"
   get "library", to: "library#index"
   get "library/books/:id/cover", to: "library#cover", as: :library_book_cover
-  get "library/books/:id/read", to: "library#read", as: :library_book_read
-  get "library/books/:id/read_asset/*asset_path", to: "library#read_asset", as: :library_book_read_asset, format: false
+  get "library/books/:id/reader", to: "library#reader", as: :library_book_reader
+  get "library/books/:id/epub", to: "library#epub", as: :library_book_epub
+  get "library/books/:id/reading_progress", to: "library#reading_progress", as: :library_book_reading_progress
+  patch "library/books/:id/reading_progress", to: "library#update_reading_progress"
   get "epub_preview", to: "pages#epub_preview"
   post "epub_preview", to: "pages#epub_preview_upload"
   get "epub_preview_assets/:preview_id/*asset_path", to: "pages#epub_preview_asset", as: :epub_preview_asset, format: false

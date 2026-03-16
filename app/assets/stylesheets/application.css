@@ -245,53 +245,11 @@
     background: #fff;
     position: relative;
     overscroll-behavior: contain;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-  }
-
-  .reader-viewport {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
     padding-top: 0.4rem;
   }
 
-  .reader-content {
-    box-sizing: border-box;
-    min-height: 100%;
-    padding: 2rem;
-    max-width: 680px;
-    margin: 0 auto;
-    will-change: transform;
-    overflow-wrap: break-word;
-    word-break: normal;
-    hyphens: auto;
-  }
-
-  .reader-content p {
-    text-indent: 1.4em;
-  }
-
-  .reader-content p:first-child,
-  .reader-content h1 + p,
-  .reader-content h2 + p,
-  .reader-content h3 + p,
-  .reader-content h4 + p,
-  .reader-content h5 + p,
-  .reader-content h6 + p,
-  .reader-content hr + p,
-  .reader-content figure + p,
-  .reader-content blockquote + p {
-    text-indent: 0;
-  }
-
-  .reader-content img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0.4rem auto 2em;
+  .reader-stage iframe {
+    border: 0;
   }
 
   .reader-pagination {
