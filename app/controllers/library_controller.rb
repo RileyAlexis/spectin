@@ -75,7 +75,7 @@ class LibraryController < ApplicationController
     end
 
     @book = book
-    @epub_url = library_book_epub_path(id: book.id, format: :epub)
+    @epub_url = library_book_epub_path(id: book.id, v: book.updated_at&.to_i)
     @reading_progress_url = library_book_reading_progress_path(id: book.id)
   end
 

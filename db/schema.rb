@@ -10,34 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_16_000100) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_17_195552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "books", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.string "title", null: false
-    t.string "subtitle"
     t.string "authors", default: [], null: false, array: true
-    t.string "publisher"
-    t.string "language"
-    t.string "isbn"
-    t.string "identifier"
-    t.string "source_format", default: "epub", null: false
-    t.integer "spine_page_count"
-    t.datetime "published_at"
-    t.text "description"
-    t.jsonb "metadata", default: {}, null: false
-    t.binary "epub_data"
-    t.string "epub_filename"
-    t.string "epub_content_type"
-    t.bigint "epub_byte_size"
+    t.bigint "cover_byte_size"
+    t.string "cover_content_type"
     t.binary "cover_data"
     t.string "cover_filename"
-    t.string "cover_content_type"
-    t.bigint "cover_byte_size"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.bigint "epub_byte_size"
+    t.string "epub_content_type"
+    t.binary "epub_data"
+    t.string "epub_filename"
+    t.string "identifier"
+    t.string "isbn"
+    t.string "language"
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "published_at"
+    t.string "publisher"
+    t.string "source_format", default: "epub", null: false
+    t.integer "spine_page_count"
+    t.string "subtitle"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["authors"], name: "index_books_on_authors", using: :gin
     t.index ["metadata"], name: "index_books_on_metadata", using: :gin
     t.index ["user_id", "identifier"], name: "index_books_on_user_id_and_identifier"
@@ -46,12 +46,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_16_000100) do
   end
 
   create_table "reading_progresses", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.bigint "book_id", null: false
-    t.string "last_cfi"
     t.jsonb "bookmarks", default: [], null: false
     t.datetime "created_at", null: false
+    t.string "last_cfi"
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["book_id"], name: "index_reading_progresses_on_book_id"
     t.index ["user_id", "book_id"], name: "index_reading_progresses_on_user_id_and_book_id", unique: true
     t.index ["user_id"], name: "index_reading_progresses_on_user_id"
@@ -59,9 +59,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_16_000100) do
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "email"
     t.string "display_name"
+    t.string "email"
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

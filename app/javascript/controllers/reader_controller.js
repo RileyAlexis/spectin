@@ -28,6 +28,7 @@ export default class extends Controller {
     this.pendingCfi = null;
     this.resizeTimer = null;
     this.saveProgressTimer = null;
+    this.isInitializing = false;
     this.keyDownHandler = this.onKeydown.bind(this);
     this.resizeHandler = this.onResize.bind(this);
     this.initialize();
@@ -45,6 +46,21 @@ export default class extends Controller {
   getCsrfToken() {
     const meta = document.querySelector('meta[name="csrf-token"]');
     return meta?.content || "";
+  }
+
+  async fetchEpubBinary() {
+    const response = await fetch(this.epubUrlValue, {
+      headers: {
+        Accept: "application/epub+zip,*/*",
+      },
+      credentials: "same-origin",
+    });
+
+    if (!response.ok) {
+      throw new Error(`EPUB request failed (${response.status})`);
+    }
+
+    return response.arrayBuffer();
   }
 
   async loadProgressFromDb() {
@@ -180,8 +196,22 @@ export default class extends Controller {
   }
 
   async initialize() {
+    // Prevent multiple concurrent initializations
+    if (this.isInitializing) {
+      console.log("Initialize already in progress, skipping");
+      return;
+    }
+    this.isInitializing = true;
+
     if (!window.ePub || !this.hasStageTarget || !this.epubUrlValue) {
       this.pageStatusTarget.textContent = "Reader failed to initialize";
+      console.error("Init checks failed:", {
+        hasEpub: !!window.ePub,
+        hasStageTarget: this.hasStageTarget,
+        hasEpubUrl: !!this.epubUrlValue,
+        stageTarget: this.stageTarget,
+      });
+      this.isInitializing = false;
       return;
     }
 
@@ -194,16 +224,56 @@ export default class extends Controller {
     if (savedSize) this.fontSizeTarget.value = savedSize;
     this.fontSizeOutputTarget.textContent = `${this.fontSizeTarget.value}px`;
 
-    this.book = window.ePub(this.epubUrlValue, { openAs: "epub" });
+    let epubBinary;
+    try {
+      epubBinary = await this.fetchEpubBinary();
+      console.log(
+        "✓ EPUB binary fetched:",
+        epubBinary?.byteLength || 0,
+        "bytes",
+      );
+    } catch (error) {
+      this.pageStatusTarget.textContent =
+        error?.message || "Could not load EPUB file";
+      console.error("✗ Fetch EPUB error:", error);
+      this.isInitializing = false;
+      return;
+    }
 
-    this.rendition = this.book.renderTo(this.stageTarget, {
-      width: "100%",
-      height: "100%",
-      flow: "paginated",
-      spread: "none",
-    });
+    this.book = window.ePub();
+    try {
+      await this.book.open(epubBinary, "binary");
+      console.log("✓ EPUB book opened");
+    } catch {
+      this.pageStatusTarget.textContent = "Could not parse EPUB file";
+      console.error("✗ Open EPUB error");
+      this.isInitializing = false;
+      return;
+    }
 
-    this.applyTheme();
+    // Destroy previous rendition if it exists
+    if (this.rendition) {
+      this.rendition.destroy();
+      this.rendition = null;
+    }
+
+    // Clear the stage to prevent duplicate containers
+    this.stageTarget.innerHTML = "";
+
+    try {
+      this.rendition = this.book.renderTo(this.stageTarget, {
+        width: "100%",
+        height: "100%",
+        flow: "paginated",
+        spread: "none",
+      });
+      console.log("✓ Rendition created, rendered to stage");
+    } catch (error) {
+      this.pageStatusTarget.textContent = "Could not initialize reader";
+      console.error("✗ RenderTo error:", error);
+      this.isInitializing = false;
+      return;
+    }
 
     this.rendition.on("relocated", (location) => {
       this.updateStatus(location);
@@ -211,36 +281,44 @@ export default class extends Controller {
 
     const initialCfi = await this.loadProgressFromDb();
     try {
+      console.log(
+        "Attempting to display content, CFI:",
+        initialCfi ? "saved" : "start",
+      );
       await this.rendition.display(initialCfi || undefined);
-      await this.generateBookLocations();
-    } catch {
+      console.log("✓ Content displayed");
+
+      // Apply font styles after content is rendered
+      this.applyTheme();
+      console.log("✓ Theme applied");
+
+      // Force layout recalculation after content has been rendered
+      this.rendition.resize();
+      console.log("✓ Layout resized");
+
+      // Generate locations asynchronously in background
+      this.generateBookLocations();
+    } catch (error) {
       this.pageStatusTarget.textContent = "Could not display this book";
+      console.error("✗ Reader display error:", error);
     }
 
     window.addEventListener("keydown", this.keyDownHandler);
     window.addEventListener("resize", this.resizeHandler);
+    this.isInitializing = false;
+    console.log("✓ Reader initialization complete");
   }
 
   applyTheme() {
     if (!this.rendition) return;
 
+    // In paginated flow, avoid body-level constraints that can interfere
+    // with page column calculations. Focus on font controls only.
     this.rendition.themes.default({
       body: {
         "font-family": this.fontFamilyTarget.value,
         "font-size": `${this.fontSizeTarget.value}px`,
         "line-height": "1.5",
-        margin: "1.6rem auto",
-        "max-width": "680px",
-      },
-      p: { "text-indent": "1.4em" },
-      "p:first-child, h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p": {
-        "text-indent": "0",
-      },
-      img: {
-        display: "block",
-        margin: "0.4rem auto 2em",
-        "max-width": "100%",
-        height: "auto",
       },
     });
 

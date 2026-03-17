@@ -8,8 +8,8 @@ pg_default: &pg_default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
+  username: rileyalexis
+  password: pass
 
 development:
   <<: *pg_default
