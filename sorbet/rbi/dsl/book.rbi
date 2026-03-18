@@ -361,8 +361,17 @@ class Book
   end
 
   module GeneratedAssociationMethods
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ReadingProgress) }
+    def build_reading_progress(*args, &blk); end
+
     sig { params(args: T.untyped, blk: T.untyped).returns(::User) }
     def build_user(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ReadingProgress) }
+    def create_reading_progress(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ReadingProgress) }
+    def create_reading_progress!(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(::User) }
     def create_user(*args, &blk); end
@@ -370,8 +379,20 @@ class Book
     sig { params(args: T.untyped, blk: T.untyped).returns(::User) }
     def create_user!(*args, &blk); end
 
+    sig { returns(T.nilable(::ReadingProgress)) }
+    def reading_progress; end
+
+    sig { params(value: T.nilable(::ReadingProgress)).void }
+    def reading_progress=(value); end
+
+    sig { returns(T.nilable(::ReadingProgress)) }
+    def reload_reading_progress; end
+
     sig { returns(T.nilable(::User)) }
     def reload_user; end
+
+    sig { void }
+    def reset_reading_progress; end
 
     sig { void }
     def reset_user; end
@@ -579,6 +600,186 @@ class Book
 
     sig { void }
     def authors_will_change!; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cover_byte_size; end
+
+    sig { params(value: T.nilable(::Integer)).returns(T.nilable(::Integer)) }
+    def cover_byte_size=(value); end
+
+    sig { returns(T::Boolean) }
+    def cover_byte_size?; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cover_byte_size_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cover_byte_size_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cover_byte_size_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cover_byte_size_change; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cover_byte_size_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cover_byte_size_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cover_byte_size_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def cover_byte_size_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cover_byte_size_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cover_byte_size_previously_was; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def cover_byte_size_was; end
+
+    sig { void }
+    def cover_byte_size_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_content_type; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def cover_content_type=(value); end
+
+    sig { returns(T::Boolean) }
+    def cover_content_type?; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_content_type_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cover_content_type_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cover_content_type_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_content_type_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_content_type_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cover_content_type_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_content_type_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_content_type_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cover_content_type_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_content_type_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_content_type_was; end
+
+    sig { void }
+    def cover_content_type_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_data; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def cover_data=(value); end
+
+    sig { returns(T::Boolean) }
+    def cover_data?; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_data_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cover_data_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cover_data_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_data_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_data_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cover_data_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_data_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_data_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cover_data_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_data_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_data_was; end
+
+    sig { void }
+    def cover_data_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_filename; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def cover_filename=(value); end
+
+    sig { returns(T::Boolean) }
+    def cover_filename?; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_filename_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def cover_filename_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def cover_filename_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_filename_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_filename_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cover_filename_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_filename_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def cover_filename_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def cover_filename_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_filename_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def cover_filename_was; end
+
+    sig { void }
+    def cover_filename_will_change!; end
 
     sig { returns(::ActiveSupport::TimeWithZone) }
     def created_at; end
@@ -1214,6 +1415,18 @@ class Book
     def restore_authors!; end
 
     sig { void }
+    def restore_cover_byte_size!; end
+
+    sig { void }
+    def restore_cover_content_type!; end
+
+    sig { void }
+    def restore_cover_data!; end
+
+    sig { void }
+    def restore_cover_filename!; end
+
+    sig { void }
     def restore_created_at!; end
 
     sig { void }
@@ -1278,6 +1491,30 @@ class Book
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_authors?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def saved_change_to_cover_byte_size; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cover_byte_size?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_cover_content_type; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cover_content_type?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_cover_data; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cover_data?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_cover_filename; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_cover_filename?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([::ActiveSupport::TimeWithZone, ::ActiveSupport::TimeWithZone])) }
     def saved_change_to_created_at; end
@@ -1671,6 +1908,18 @@ class Book
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_authors?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cover_byte_size?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cover_content_type?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cover_data?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_cover_filename?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_created_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end

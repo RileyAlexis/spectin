@@ -21445,7 +21445,6 @@ class Pathname
 end
 
 module Process
-  extend ::SQLite3::ForkSafety::CoreExt
   extend ::ActiveSupport::ForkTracker::CoreExt
 
   class << self
