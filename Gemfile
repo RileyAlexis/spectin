@@ -63,7 +63,6 @@ group :development do
   gem "tapioca", "~> 0.17", require: false
   gem "yard"
   gem "vite_rails"
-  gem "hotwire-livereload"
   gem "htmlbeautifier", "~> 1.4"
   gem "annotaterb", "~> 4.22"
 end

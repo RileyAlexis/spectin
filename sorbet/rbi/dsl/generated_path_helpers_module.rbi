@@ -10,25 +10,28 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def ebooks_library_book_cover_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def ebooks_library_book_epub_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def ebooks_library_book_reader_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def ebooks_library_book_reading_progress_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def ebooks_library_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def ebooks_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def epub_preview_asset_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def epub_preview_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def library_book_cover_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def library_book_epub_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def library_book_reader_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def library_book_reading_progress_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def library_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def new_rails_conductor_inbound_email_path(*args); end
