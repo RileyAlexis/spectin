@@ -1,0 +1,28 @@
+<div class="waTrialContainer" data-controller="wa-trial" data-current-path="<%= request.path %>">
+  <div class="dataContainer" style="display: flex; flex-direction: row;">
+    <% @data.each do |item| %>
+      <% item.values.each do |value| %>
+        <%= value %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="uiContainer">
+    <wa-radio-group
+        label="Options"
+        hint="Select an Option"
+        orientation="horizontal"
+        name="a"
+        value="1"
+        data-action="change->wa-trial#optionThing"
+      >
+      <wa-radio appearance="button" value="1">One</wa-radio>
+      <wa-radio appearance="button" value="2">Two</wa-radio>
+      <wa-radio appearance="button" value="3">Three</wa-radio>
+    </wa-radio-group>
+  </div>
+  <div class="colorPicker">
+    <wa-color-picker value="#f5a623ff" opacity label="Select a color"
+        data-action="change->wa-trial#colorThing"
+      ></wa-color-picker>
+  </div>
+</div>

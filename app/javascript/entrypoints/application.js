@@ -16,23 +16,36 @@ import {
   SlIcon,
 } from "@shoelace-style/shoelace";
 
-import { PurisLogoType, PurisLogoMark } from "@puris/web-components";
-
-// Import Web Awesome components and register them manually
 import WaButton from "@awesome.me/webawesome/dist/components/button/button.js";
 import WaIcon from "@awesome.me/webawesome/dist/components/icon/icon.js";
 import WaBadge from "@awesome.me/webawesome/dist/components/badge/badge.js";
 import WaTooltip from "@awesome.me/webawesome/dist/components/tooltip/tooltip.js";
 import WaAnimation from "@awesome.me/webawesome/dist/components/animation/animation.js";
+import WaButtonGroup from "@awesome.me/webawesome/dist/components/button-group/button-group.js";
+import WaDialog from "@awesome.me/webawesome/dist/components/dialog/dialog.js";
+import WaRadioGroup from "@awesome.me/webawesome/dist/components/radio-group/radio-group.js";
+import WaRadio from "@awesome.me/webawesome/dist/components/radio/radio.js";
+import WaColorPicker from "@awesome.me/webawesome/dist/components/color-picker/color-picker.js";
+import { PurisLogoType, PurisLogoMark } from "@puris/web-components";
 
-customElements.define("wa-button", WaButton);
-customElements.define("wa-icon", WaIcon);
-customElements.define("wa-badge", WaBadge);
-customElements.define("wa-icon", WaIcon);
-customElements.define("wa-tooltip", WaTooltip);
-customElements.define("wa-animation", WaAnimation);
-customElements.define("puris-logomark", PurisLogoMark);
-customElements.define("puris-logotype", PurisLogoType);
+const elements = [
+  ["wa-button", WaButton],
+  ["wa-icon", WaIcon],
+  ["wa-badge", WaBadge],
+  ["wa-tooltip", WaTooltip],
+  ["wa-animation", WaAnimation],
+  ["wa-button-group", WaButtonGroup],
+  ["wa-dialog", WaDialog],
+  ["wa-radio-group", WaRadioGroup],
+  ["wa-radio", WaRadio],
+  ["wa-color-picker", WaColorPicker],
+  ["puris-logomark", PurisLogoMark],
+  ["puris-logotype", PurisLogoType],
+];
+
+elements.forEach(([name, constructor]) => {
+  customElements.define(name, constructor);
+});
 
 setBasePath("/shoelace-assets");
 

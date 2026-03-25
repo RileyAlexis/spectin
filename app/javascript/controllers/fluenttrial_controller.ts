@@ -33,15 +33,32 @@ export default class extends Controller<HTMLElement> {
     if (logotype) logotype.setAttribute("variant", isDark ? "white" : "black");
   }
 
-  doabuttonthing() {
+  doabuttonthing(event: Event) {
     console.log("button");
+    const button = event.currentTarget as HTMLButtonElement | null;
+    const animation: any = document.getElementById("secondAnimation");
+
+    if (animation && button) {
+      animation.addEventListener("wa-finish", () => {
+        button.style.display = "none";
+      });
+      animation.play = true;
+    }
   }
 
-  shakey(event: any) {
+  shakey(event: Event) {
     console.log("*********", event.target);
-    const anim = document.getElementById("nonobutton");
-    if (anim) {
-      anim.setAttribute("play", "");
+
+    const button = event.currentTarget as HTMLButtonElement | null;
+    const container = document.querySelector(".animation-form");
+    const animation: any = container?.querySelector("wa-animation");
+
+    if (animation && button) {
+      button.setAttribute("variant", "danger");
+      animation.play = true;
+      setTimeout(() => {
+        button.setAttribute("variant", "brand");
+      }, 1000);
     }
   }
 

@@ -9,3 +9,6 @@ application.register("fluenttrial", FluenttrialController)
 
 import ReaderController from "./reader_controller"
 application.register("reader", ReaderController)
+
+import WaTrialController from "./wa_trial_controller"
+application.register("wa-trial", WaTrialController)

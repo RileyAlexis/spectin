@@ -50,32 +50,65 @@
         </div>
       </div>
       <div class="webawesomeContainer">
-        <wa-animation id="nonoButton" name="shake" duration="500">
-          <wa-button 
+        <div class="animation-form">
+          <wa-animation id="nonoButton" name="headShake" easing="ease-in-out" duration="1000" iterations="1">
+            <wa-button 
             data-action="click->fluenttrial#shakey"
-            size="small"
-            pill
-            variant="brand"
-            appearance="outlined"
-            >WA Button
+              size="small"
+              pill
+              variant="brand"
+              appearance="outlined"
+              >WA Button
+            </wa-button>
+          </wa-animation>
+        </div>
+        <wa-animation id="secondAnimation" name="hinge" easing="ease-in-out" duration="1500" iterations="1">
+          <wa-button size="small" appearance="outlined"
+          data-action="click->fluenttrial#doabuttonthing"
+            >
+            <wa-icon 
+          data-action="click->fluenttrial#doabuttonthing"
+              family="solid" 
+              name="angles-up"
+              <%# animation="shake" %>
+              ></wa-icon>
           </wa-button>
         </wa-animation>
-        <wa-button size="small" appearance="outlined"
-          data-action="click->fluenttrial#doabuttonthing"
-          >
-          <wa-icon 
-          data-action="click->fluenttrial#doabuttonthing"
-            family="solid" 
-            name="angles-up"
-            <%# animation="shake" %>
-            ></wa-icon>
-        </wa-button>
         <wa-tooltip for="testButton" placement="right-start">Tooltip Text Here</wa-tooltip>
         <wa-button id="testButton" size="small" appearance="filled-outline" variant="brand" pill>
           <wa-icon family="solid" name="atom">
           </wa-icon>
         </wa-button>
       </div>
+      <div class="newContainer">
+        <div>
+          <wa-button-group orientation="vertical">
+            <wa-button size="small" appearance="filled" id="button-bold" variant="brand">
+              <wa-icon name="bold" variant="solid" label="Bold"
+            ></wa-icon>
+            </wa-button>
+            <wa-button size="small" appearance="filled" id="button-italic"><wa-icon name="italic" variant="solid" label="Bold"></wa-icon></wa-button>
+            <wa-button size="small" appearance="filled" id="button-underline"><wa-icon name="underline" variant="solid" label="Bold"></wa-icon></wa-button>
+          </wa-button-group>
+        </div>
+        <div style="margin: 1em;">
+          <wa-button-group orientation="horizontal">
+            <wa-button size="small" appearance="filled" id="button-bold" variant="brand" pill>
+              One
+            </wa-button>
+            <wa-button size="small" appearance="filled" id="button-italic" pill>
+              Two
+            </wa-button>
+            <wa-button size="small" appearance="filled" id="button-underline" pill>
+              Three
+            </wa-button>
+          </wa-button-group>
+        </div>
+        <wa-button appearance="filled" data-dialog="open dialog-overview">Open Dialog</wa-button>
+      </div>
+      <wa-dialog label="dialog" id="dialog-overview" light-dismiss style="--width: 50vw;">
+        Standard Dialog 
+      </wa-dialog>
     </div>
   <% else %>
     <p>No test data available.</p>

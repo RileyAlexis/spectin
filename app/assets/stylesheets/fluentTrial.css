@@ -23,3 +23,9 @@
     gap: 1em;
     margin-top: 3em;
 }
+
+.newContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+}

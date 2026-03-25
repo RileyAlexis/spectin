@@ -18,6 +18,8 @@ end
     end
   end
 
+  resources :wa_trial, only: [ :index ]
+
   get "epub_preview", to: "pages#epub_preview"
   post "epub_preview", to: "pages#epub_preview_upload"
   get "epub_preview_assets/:preview_id/*asset_path", to: "pages#epub_preview_asset", as: :epub_preview_asset, format: false
